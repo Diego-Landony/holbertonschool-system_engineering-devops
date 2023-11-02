@@ -1,0 +1,40 @@
+
+# server web infrastructure 0
+
+To design a simple web infrastructure that meets the specified requirements, we can create a basic web stack consisting of a single server hosting a website accessible via <www.foobar.com>. Let's break down each component and answer the questions:
+
+![1](0-simple_web_stack.jpg)
+
+1. **Server:**
+   - A server is a computer or a machine that is responsible for processing and responding to incoming requests. In this scenario, we have one server that serves as the central component of our web infrastructure.
+
+2. **Domain Name:**
+   - The domain name, "www.foobar.com," serves as the human-readable address for the website. It allows users to access the website by typing a memorable name instead of the server's IP address (8.8.8.8). The domain name system (DNS) is used to translate the domain name to its corresponding IP address.
+
+3. **DNS Record:**
+   - The "www" in "www.foobar.com" is a subdomain, and it typically represents the specific web server for the website. The DNS record associated with "www" is a CNAME (Canonical Name) record, pointing to the domain name or the A record that resolves to the server's IP address (8.8.8.8).
+
+4. **Web Server (Nginx):**
+   - The web server, in this case, Nginx, is responsible for handling incoming HTTP requests and serving static content to users. It acts as the first point of contact for users when they access the website, forwarding dynamic content requests to the application server.
+
+5. **Application Server:**
+   - The application server runs the website's codebase, processes dynamic content, and interacts with the database. It can execute server-side scripts (e.g., PHP, Python, Ruby) to generate dynamic web pages and deliver them to the web server for serving to the user.
+
+6. **Database (MySQL):**
+   - The database stores and manages the website's data, such as user information, content, and configurations. MySQL is a popular relational database management system (RDBMS) that can be used for this purpose. The application server communicates with the database to retrieve or update data as needed.
+
+7. **Communication with User's Computer:**
+   - When a user wants to access the website, they enter "www.foobar.com" in their web browser. The DNS system resolves this domain name to the server's IP address (8.8.8.8). The user's computer then sends an HTTP request to the web server at that IP address. The web server processes the request, serving static content and forwarding dynamic requests to the application server. The application server interacts with the database if required and generates the appropriate response, which is sent back to the user's computer.
+
+Now, let's address the issues with this infrastructure:
+
+1. **Single Point of Failure (SPOF):**
+   - This architecture has a single server, which poses a risk of being a single point of failure. If the server experiences hardware or software issues, the entire website becomes inaccessible.
+
+2. **Downtime During Maintenance:**
+   - When maintenance is needed, such as deploying new code, the web server needs to be restarted. This can lead to downtime, making the website temporarily unavailable to users.
+
+3. **Limited Scalability:**
+   - This infrastructure may struggle to handle a significant increase in incoming traffic. Scaling horizontally (adding more servers) or vertically (upgrading server resources) would be challenging in this basic setup.
+
+To address these issues, you might consider implementing load balancing, redundancy, and scalability measures, like using multiple servers, load balancers, and databases, and introducing automation for seamless updates and scaling.

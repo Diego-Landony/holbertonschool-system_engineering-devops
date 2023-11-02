@@ -1,0 +1,44 @@
+# server web infrastructure 3
+
+To design a secured and monitored web infrastructure that hosts the website <www.foobar.com> with three servers, we need to add security measures like firewalls, SSL for encryption, and monitoring. Let's address each element and answer the specific questions:
+
+![1](3-scale_up.jpg)
+
+1. **Three Firewalls:**
+   - Firewalls are added to enhance security. They act as a barrier between the servers and the internet, controlling incoming and outgoing network traffic. Each server should have its own firewall to restrict unauthorized access and protect against potential threats.
+
+2. **SSL Certificate for HTTPS:**
+   - An SSL certificate is added to serve <www.foobar.com> over HTTPS. This ensures that the data transmitted between the user's browser and the web server is encrypted, enhancing data security and protecting against eavesdropping and data tampering.
+
+3. **Three Monitoring Clients (Data Collectors):**
+   - Monitoring is essential for tracking the performance, health, and security of the infrastructure. Monitoring clients, such as data collectors for Sumo Logic or other monitoring services, collect data on server metrics, logs, and events, enabling administrators to proactively address issues.
+
+Specifics:
+
+- **Firewalls:**
+  - Firewalls are added to restrict access and protect the servers from unauthorized connections and potential security threats. They filter incoming and outgoing network traffic, only allowing what's explicitly permitted.
+
+- **HTTPS:**
+  - Serving traffic over HTTPS ensures that data exchanged between users and the website is encrypted, making it significantly more difficult for malicious actors to intercept, read, or manipulate the data.
+
+- **Monitoring:**
+  - Monitoring is used to keep track of server and application performance, identify security breaches, and proactively address issues. It helps ensure the availability, reliability, and security of the web infrastructure.
+
+- **Data Collection for Monitoring:**
+  - Monitoring tools collect data from various sources, such as server logs, metrics, and events. They gather this data to provide insights into the system's behavior and performance. Monitoring clients or data collectors are responsible for fetching and sending this data to the monitoring service.
+
+- **Monitoring Web Server QPS (Queries Per Second):**
+  - To monitor the web server's QPS, you would configure the monitoring tool to collect data related to incoming requests, count the number of queries per second, and provide alerts or visualizations to track changes in traffic patterns.
+
+Now, let's address the issues with this infrastructure:
+
+1. **Terminating SSL at the Load Balancer Level:**
+   - Terminating SSL at the load balancer can be problematic because it exposes decrypted traffic within the internal network. If there's a security breach or vulnerability in the load balancer, the encrypted traffic is no longer secure. Ideally, SSL termination should occur at the web server level to maintain encryption throughout the network.
+
+2. **One MySQL Server Accepting Writes:**
+   - Having only one MySQL server capable of accepting writes is an issue because it creates a single point of failure for the database. If this server goes down or experiences issues, it can result in data loss or unavailability. In a highly available setup, you should implement a Primary-Replica (Master-Slave) cluster for MySQL to handle write operations, ensuring data redundancy and fault tolerance.
+
+3. **Servers with the Same Components:**
+   - Having all servers (database, web server, and application server) with the same components can be problematic because it doesn't provide the level of redundancy and fault tolerance required in a production environment. In a more robust setup, you would typically have multiple instances of each component to distribute the load and ensure high availability.
+
+Note: To improve the infrastructure, we should consider implementing SSL termination at the web server level, configuring a highly available MySQL cluster, and introducing redundancy for all server components to ensure better fault tolerance and scalability.

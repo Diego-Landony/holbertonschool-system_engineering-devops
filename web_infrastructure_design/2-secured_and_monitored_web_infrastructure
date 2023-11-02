@@ -1,0 +1,49 @@
+# server web infrastructure 2
+
+Designing a secured and monitored web infrastructure for hosting <www.foobar.com> with three servers:
+
+![1](2-secured_and_monitored_web_infrastructure.jpg)
+
+**Server 1:**
+
+- Web Server (Nginx):
+  - Nginx is responsible for serving static content, handling SSL termination, and routing requests to the application server.
+
+**Server 2:**
+
+- Application Server:
+  - The application server runs the web application logic, including processing dynamic content and serving responses to client requests.
+
+**Server 3:**
+
+- Load Balancer (HAproxy):
+  - HAproxy distributes incoming requests across the two servers for load balancing and high availability.
+- Application Files (Your Code Base):
+  - These files contain the application code and assets necessary for serving the website.
+  - Firewall 1: This firewall protects the web server from unauthorized access.
+  - Firewall 2: This firewall protects the application server from unauthorized access.
+  - Firewall 3: This firewall protects the database server from unauthorized access.
+  - SSL Certificate: To secure the website, an SSL certificate is added to serve <www.foobar.com> over HTTPS.
+  - Monitoring Clients: These clients collect data for monitoring services such as Sumo Logic or similar tools.
+
+**Explanations:**
+
+1. **Firewalls:** Firewalls are added to enhance security. They control incoming and outgoing traffic and can prevent unauthorized access to specific components, protecting against attacks and data breaches.
+
+2. **SSL Certificate:** Traffic is served over HTTPS to encrypt data in transit, providing confidentiality and integrity. This ensures that sensitive information, such as user credentials and payment details, remains secure during transmission.
+
+3. **Monitoring:** Monitoring is used to track the performance, health, and security of the infrastructure. Monitoring tools collect data on various parameters, enabling administrators to detect issues, troubleshoot, and optimize the system.
+
+4. **Monitoring Tool Data Collection:** Monitoring tools collect data by installing monitoring agents or clients on the servers. These agents gather information about server performance, resource utilization, error logs, security events, and other relevant metrics. This data is sent to the monitoring service for analysis and reporting.
+
+**Monitoring Web Server QPS (Queries Per Second):**
+
+To monitor the web server's QPS, you can configure the monitoring tool to collect data on the number of incoming requests per second. The tool can track this metric and provide real-time and historical data, allowing you to identify spikes or anomalies in request rates.
+
+**Issues with the Infrastructure:**
+
+1. **Terminating SSL at the Load Balancer Level:** Terminating SSL at the load balancer level can be an issue because it exposes the decrypted traffic within the internal network. If the load balancer is compromised, the traffic may be intercepted. A more secure approach is to terminate SSL at the web server, reducing the exposure of decrypted data within the network.
+
+2. **Single MySQL Server Capable of Accepting Writes:** Having only one MySQL server capable of accepting writes is a single point of failure. If the database server fails, it can result in data loss and service disruption. Implementing a Primary-Replica (Master-Slave) cluster for MySQL would provide redundancy and data resilience.
+
+3. **Servers with All the Same Components:** Having servers with identical components (database, web server, and application server) might be a problem because it can lead to a lack of resource isolation and flexibility. Different server types are designed for specific roles and resource requirements. Separating these components allows for more efficient resource allocation and scaling based on individual needs.

@@ -1,0 +1,56 @@
+# server web infrastructure 1
+
+Designing a distributed web infrastructure for hosting <www.foobar.com> with three servers:
+
+![1](1-distributed_web_infrastructure.jpg)
+
+**Server 1:**
+
+- Web Server (Nginx):
+  - Nginx is responsible for serving static content, handling SSL termination, and routing requests to the application server.
+
+**Server 2:**
+
+- Application Server:
+  - The application server runs the web application logic, including processing dynamic content and serving responses to client requests.
+
+**Server 3:**
+
+- Load Balancer (HAproxy):
+  - HAproxy distributes incoming requests across the two servers for load balancing and high availability.
+- Application Files (Your Code Base):
+  - These files contain the application code and assets necessary for serving the website.
+
+**Explanations:**
+
+1. **Web Server (Nginx):** Nginx is added to serve as a reverse proxy, handling incoming requests, load balancing, and SSL termination. It improves security and performance by offloading these tasks from the application server.
+
+2. **Application Server:** This server hosts the web application and is responsible for generating dynamic content, processing requests, and interacting with the database.
+
+3. **Load Balancer (HAproxy):** The load balancer distributes client requests to the web servers, ensuring a balanced workload. This adds redundancy and fault tolerance to the infrastructure.
+
+4. **Application Files (Your Code Base):** These files contain the application code and assets necessary for serving the website. They are located on a separate server for efficient content delivery and separation of concerns.
+
+**Load Balancer Configuration:**
+
+The HAproxy load balancer is configured with a round-robin distribution algorithm. It evenly distributes incoming requests to the available web servers. Round-robin is a simple and effective way to balance the load.
+
+**Active-Active vs. Active-Passive:**
+
+The load balancer enables an Active-Active setup. In this configuration, both web servers are actively serving traffic simultaneously, distributing the load evenly. An Active-Passive setup would mean one server is passive (standby) until the primary (active) server fails, which can result in resource underutilization.
+
+**Database Primary-Replica Cluster:**
+
+In a Primary-Replica (Master-Slave) MySQL cluster:
+
+- **Primary Node (Master):** Handles write operations (INSERT, UPDATE, DELETE), maintains the current state of the data, and is the point of entry for all writes. It's critical for data integrity.
+
+- **Replica Node (Slave):** Replicates data from the Primary and can be used for read operations (SELECT). This reduces the read load on the Primary and improves scalability. However, it cannot be used for write operations, ensuring data consistency.
+
+**Issues with the Infrastructure:**
+
+1. **Single Point of Failure (SPOF):** The web server, application server, and database are single points of failure. If any of these components fail, it can disrupt the website's availability. Redundancy should be implemented to mitigate SPOFs.
+
+2. **Security Issues:** The design lacks a firewall and HTTPS. Implementing a firewall is crucial for protecting the infrastructure, and HTTPS is essential for encrypting data in transit and enhancing security.
+
+3. **No Monitoring:** There is no monitoring system in place to keep track of server health, performance, and security. Monitoring tools are necessary for proactive issue detection and resolution.
